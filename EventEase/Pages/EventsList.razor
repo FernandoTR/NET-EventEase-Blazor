@@ -1,0 +1,29 @@
+﻿@page "/events"
+@using EventEase.Models
+@using EventEase.Shared
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+
+<h2>Eventos</h2>
+
+<Virtualize Items="@events" Context="evt">
+    <EventCard Event="evt" />
+</Virtualize>
+
+@code {
+    private List<Event> events = new List<Event>();
+
+    protected override void OnInitialized()
+    {
+        // Simulación de muchos eventos
+        for (int i = 1; i <= 1000; i++)
+        {
+            events.Add(new Event
+            {
+                Id = i,
+                Name = $"Evento {i}",
+                Date = DateTime.Now.AddDays(i),
+                Location = "Ciudad " + ((i % 10) + 1)
+            });
+        }
+    }
+}

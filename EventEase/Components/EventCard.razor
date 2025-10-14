@@ -1,0 +1,13 @@
+﻿@using EventEase.Models
+@* @inherits EventCardBase *@
+
+<div class="card m-2 p-3 border border-primary rounded">
+    <h5 class="card-title">@EventData.Name</h5>
+    <p class="card-text"><strong>Date:</strong> @EventData.Date.ToShortDateString()</p>
+    <p class="card-text"><strong>Location:</strong> @EventData.Location</p>
+</div>
+
+@code {
+    [Parameter]
+    public Event EventData { get; set; } = new Event();
+}

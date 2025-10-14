@@ -1,0 +1,24 @@
+﻿<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <div class="text-center mt-5">
+                <h3>404 - Página no encontrada</h3>
+                <p>La ruta que buscas no existe.</p>
+                <button class="btn btn-primary" @onclick="GoHome">Volver a Eventos</button>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    [Inject] private NavigationManager NavManager { get; set; } = default!;
+
+    private void GoHome()
+    {
+        NavManager.NavigateTo("/events");
+    }
+}

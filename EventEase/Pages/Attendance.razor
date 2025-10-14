@@ -1,0 +1,17 @@
+﻿@page "/attendance"
+@using EventEase.Services
+@inject UserSessionService SessionService
+
+<h2>Asistencia al evento</h2>
+
+@if (SessionService.IsLoggedIn)
+{
+    <p>Usuario registrado: @SessionService.CurrentUser!.Name</p>
+    <p>Evento ID: @SessionService.CurrentUser!.EventId</p>
+    <p>¡Gracias por tu participación!</p>
+}
+else
+{
+    <p>No hay usuario registrado.</p>
+    <a href="/registration" class="btn btn-primary">Registrarse</a>
+}

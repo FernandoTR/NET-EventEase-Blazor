@@ -1,0 +1,18 @@
+﻿@using EventEase.Models
+@code {
+    [Parameter] public Event? Event { get; set; }
+}
+
+<div class="card m-2 p-3 border rounded">
+    @if (Event != null && !string.IsNullOrWhiteSpace(Event.Name))
+    {
+        <h3>@Event.Name</h3>
+        <p><strong>Fecha:</strong> @Event.Date.ToString("dd/MM/yyyy")</p>
+        <p><strong>Ubicación:</strong> @Event.Location</p>
+        <a href="@($"/events/{Event.Id}")" class="btn btn-primary">Ver detalles</a>
+    }
+    else
+    {
+        <p>Información del evento no disponible o inválida.</p>
+    }
+</div>

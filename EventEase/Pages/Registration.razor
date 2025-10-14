@@ -1,0 +1,64 @@
+﻿@page "/registration"
+@using EventEase.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using EventEase.Services
+
+<h2>Registro de Usuario</h2>
+
+<EditForm Model="@registration" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>Nombre:</label>
+        <InputText class="form-control" @bind-Value="registration.Name" />
+        <ValidationMessage For="@(() => registration.Name)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Correo:</label>
+        <InputText class="form-control" @bind-Value="registration.Email" />
+        <ValidationMessage For="@(() => registration.Email)" />
+    </div>
+
+    <div class="mb-3">
+        <label>Evento:</label>
+        <InputSelect class="form-control" @bind-Value="registration.EventId">
+            <option value="">-- Selecciona un evento --</option>
+            @foreach (var evt in events)
+            {
+                <option value="@evt.Id">@evt.Name</option>
+            }
+        </InputSelect>
+        <ValidationMessage For="@(() => registration.EventId)" />
+    </div>
+
+    <button type="submit" class="btn btn-success">Registrar</button>
+</EditForm>
+
+@if (successMessage != null)
+{
+    <div class="alert alert-success mt-3">@successMessage</div>
+}
+
+@inject UserSessionService SessionService;
+
+@code {
+   
+    private EventEase.Models.Registration registration = new();
+    private string? successMessage;
+
+    private List<Event> events = new List<Event>
+    {
+        new Event { Id = 1, Name = "Conferencia Tech", Date = DateTime.Now.AddDays(10), Location = "CDMX" },
+        new Event { Id = 2, Name = "Networking Empresarial", Date = DateTime.Now.AddDays(15), Location = "Guadalajara" },
+        new Event { Id = 3, Name = "Feria de Innovación", Date = DateTime.Now.AddDays(20), Location = "Monterrey" }
+    };
+
+    private void HandleValidSubmit()
+    {
+        SessionService.SetUser(registration);
+        successMessage = $"¡Gracias {registration.Name}! Te has registrado correctamente para el evento.";
+        registration = new EventEase.Models.Registration(); // Reset form
+    }
+}
